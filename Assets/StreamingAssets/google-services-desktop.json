@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "638497931596",
+    "project_id": "teenpattidream-637ac",
+    "storage_bucket": "teenpattidream-637ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638497931596:android:fa675e7251a9f5fa7dcfe9",
+        "android_client_info": {
+          "package_name": "com.hizztech.teenpatti.dream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638497931596-o42fkh2ut7h1kmf7mt2amumt4h36q4n2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hizztech.teenpatti.dream",
+            "certificate_hash": "4cbc51440b4fd337f50e9eb93f2959114eb7876e"
+          }
+        },
+        {
+          "client_id": "638497931596-p9ifjk25ktrv11if4l9in5obsrvv4i6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk3q2dNv2WvK3Ewx5P97XyAb9cREBdlSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638497931596-aqdbfjohggrl76o5ciocohsnn89ksaql.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

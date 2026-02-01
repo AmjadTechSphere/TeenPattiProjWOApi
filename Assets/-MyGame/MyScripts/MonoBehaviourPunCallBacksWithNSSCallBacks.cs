@@ -1,0 +1,50 @@
+using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+namespace com.mani.muzamil.amjad
+{
+    public class MonoBehaviourPunCallBacksWithNSSCallBacks : WrapperEvents
+    {
+        private void OnEnable()
+        {
+          //  RegisterRoomEvents();
+        }
+
+        private void OnDisable()
+        {
+          //  UnregisterRoomEvents();
+        }
+
+
+        public void RegisterRoomEvents()
+        {
+            OnEventReceivedWaitingForPlayers += OnRoomStateChangeToWaitingForPlayers;
+            OnEventReceivedGameIsStarting += OnRoomStateChangeToGameIsStarting;
+            OnEventReceivedCardDistributing += OnRoomStateChangeToCardDistributing;
+            OnEventReceivedGameIsPlaying += OnRoomStateChangeToGameIsPlaying;
+            OnEventReceivedWaitingForResults += OnRoomStateChangeToWaitingForResults;
+            OnEventReceivedShowingResults += OnRoomStateChangeToShowingResults;
+            OnEventReceivedSideShow += OnRoomStateChangeToSideShow;
+            OnEventReceivedABFirstTurn += OnRoomStateChangeToABFirstTurn;
+            OnEventReceivedABSecondTurn += OnRoomStateChangeToABSecondTurn;
+        }
+
+        public void UnregisterRoomEvents()
+        {
+            OnEventReceivedWaitingForPlayers -= OnRoomStateChangeToWaitingForPlayers;
+            OnEventReceivedGameIsStarting -= OnRoomStateChangeToGameIsStarting;
+            OnEventReceivedCardDistributing -= OnRoomStateChangeToCardDistributing;
+            OnEventReceivedGameIsPlaying -= OnRoomStateChangeToGameIsPlaying;
+            OnEventReceivedWaitingForResults -= OnRoomStateChangeToWaitingForResults;
+            OnEventReceivedShowingResults -= OnRoomStateChangeToShowingResults;
+            OnEventReceivedSideShow -= OnRoomStateChangeToSideShow;
+            OnEventReceivedABFirstTurn -= OnRoomStateChangeToABFirstTurn;
+            OnEventReceivedABSecondTurn -= OnRoomStateChangeToABSecondTurn;
+        }
+
+
+    }
+}

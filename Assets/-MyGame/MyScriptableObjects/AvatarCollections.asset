@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 255151f26e8ac4e458a4fc954ba540fb, type: 3}
+  m_Name: AvatarCollections
+  m_EditorClassIdentifier: 
+  Sprites:
+  - Sprites: {fileID: 21300000, guid: f9b9818d1569ccd44b2c4deb8a326c3f, type: 3}
+    Name: Default Avatar - male 1
+  - Sprites: {fileID: 21300000, guid: 2060297bc57e61a4e954181cbcdf831c, type: 3}
+    Name: Default Avatar - Male 2
+  - Sprites: {fileID: 21300000, guid: 3b0fd91ca84acc64d8880150efb6ba23, type: 3}
+    Name: Default Avatar - Male 3
+  - Sprites: {fileID: 21300000, guid: dfd57e661491dd14282d1e4763b7e400, type: 3}
+    Name: Default Avatar - Male 4
+  - Sprites: {fileID: 21300000, guid: 42fd905de7d0a444b928e35fb5664a68, type: 3}
+    Name: Default Avatar - Male 5
+  - Sprites: {fileID: 21300000, guid: 4c0477b82c0e9ac4a994fd8f1eeb5b23, type: 3}
+    Name: Default Avatar - Male 6
+  - Sprites: {fileID: 21300000, guid: f75fa2903d5f43546a4af78f9fa83f90, type: 3}
+    Name: Default Avatar - Male 7
+  - Sprites: {fileID: 21300000, guid: b4e72931b46c48f4ca080e9af583e435, type: 3}
+    Name: Default Avatar - Male 8
+  - Sprites: {fileID: 21300000, guid: 2ba50da957a320443bc5a31cb1aa29d6, type: 3}
+    Name: Default Avatar - Male 9
+  - Sprites: {fileID: 21300000, guid: 4db0d7346066f174eb76d98eb0925541, type: 3}
+    Name: Default Avatar - Male 10
+  - Sprites: {fileID: 21300000, guid: 98ee33503f47ec640a82080027045ad0, type: 3}
+    Name: Default Avatar - male 11
+  - Sprites: {fileID: 21300000, guid: 52f438f5176030049aed64bd26cf2c5c, type: 3}
+    Name: Default Avatar - male 12
+  - Sprites: {fileID: 21300000, guid: 60d7e66f34d96d445acc4bddad35a797, type: 3}
+    Name: Default Avatar - male 13
+  - Sprites: {fileID: 21300000, guid: 362be89b7c95c6243bcfde9cfe6c3bdb, type: 3}
+    Name: Default Avatar - Female 14
+  - Sprites: {fileID: 21300000, guid: b4119310db268024da567776bc082873, type: 3}
+    Name: Default Avatar - Female 15
+  - Sprites: {fileID: 21300000, guid: be74357aa3c6f3842b8657cfe636dfa2, type: 3}
+    Name: Default Avatar - Female 16
+  - Sprites: {fileID: 21300000, guid: 4bf3c4397081d8a44a027958b13a6a80, type: 3}
+    Name: Default Avatar - Female 17
+  - Sprites: {fileID: 21300000, guid: 9c11eb88a99c12642a8354bf733018b8, type: 3}
+    Name: Default Avatar - Female 18
+  - Sprites: {fileID: 21300000, guid: b017d5776dbe9174f8122421dca4fd69, type: 3}
+    Name: Default Avatar - Female 19
+  - Sprites: {fileID: 21300000, guid: fe1570efa9121b8478973ab23f765c65, type: 3}
+    Name: Default Avatar -Female 20
+  - Sprites: {fileID: 21300000, guid: 906356380ecb99a40a591958dd10fafe, type: 3}
+    Name: Default Avatar - Female 21
+  - Sprites: {fileID: 21300000, guid: aa4262461efc36a4cb5984f9d3904ae8, type: 3}
+    Name: Default Avatar - Female 22
+  - Sprites: {fileID: 21300000, guid: 58c4214f1aaddbf44ace5814b10dfbdf, type: 3}
+    Name: Default Avatar - male 23
+  - Sprites: {fileID: 21300000, guid: c27d3e5de925a4c48bada214134d8b3a, type: 3}
+    Name: Default Avatar - male 24
+  - Sprites: {fileID: 21300000, guid: 30eba294f6113cc46a7e7c76b2cc9169, type: 3}
+    Name: Default Avatar - male 25
+  - Sprites: {fileID: 21300000, guid: 2cbb8696f7b4cf2469484287aeceb25c, type: 3}
+    Name: Default Avatar - male 26
+  - Sprites: {fileID: 21300000, guid: 55451ec3731360d4c930d91c22f6ac2c, type: 3}
+    Name: Default Avatar - male 27
+  - Sprites: {fileID: 21300000, guid: cf08c9a9f545e154d9837739d9129735, type: 3}
+    Name: Default Avatar - male 28
