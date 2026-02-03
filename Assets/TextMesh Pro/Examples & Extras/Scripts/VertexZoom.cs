@@ -150,8 +150,8 @@ namespace TMPro.Examples
                     destinationVertices[vertexIndex + 3] += offset;
 
                     // Restore Source UVS which have been modified by the sorting
-                    Vector2[] sourceUVs0 = cachedMeshInfoVertexData[materialIndex].uvs0;
-                    Vector2[] destinationUVs0 = textInfo.meshInfo[materialIndex].uvs0;
+                    Vector4[] sourceUVs0 = cachedMeshInfoVertexData[materialIndex].uvs0;
+                    Vector4[] destinationUVs0 = textInfo.meshInfo[materialIndex].uvs0;
 
                     destinationUVs0[vertexIndex + 0] = sourceUVs0[vertexIndex + 0];
                     destinationUVs0[vertexIndex + 1] = sourceUVs0[vertexIndex + 1];
@@ -171,18 +171,19 @@ namespace TMPro.Examples
                 // Push changes into meshes
                 for (int i = 0; i < textInfo.meshInfo.Length; i++)
                 {
-                    //// Sort Quads based modified scale
+                    // Sort Quads based on modified scale
                     scaleSortingOrder.Sort((a, b) => modifiedCharScale[a].CompareTo(modifiedCharScale[b]));
 
                     textInfo.meshInfo[i].SortGeometry(scaleSortingOrder);
 
-                    // Updated modified vertex attributes
+                    // Update modified vertex attributes
                     textInfo.meshInfo[i].mesh.vertices = textInfo.meshInfo[i].vertices;
-                    textInfo.meshInfo[i].mesh.uv = textInfo.meshInfo[i].uvs0;
+                    textInfo.meshInfo[i].mesh.SetUVs(0, textInfo.meshInfo[i].uvs0); // ✅ FIX
                     textInfo.meshInfo[i].mesh.colors32 = textInfo.meshInfo[i].colors32;
 
                     m_TextComponent.UpdateGeometry(textInfo.meshInfo[i].mesh, i);
                 }
+
 
                 yield return new WaitForSeconds(0.1f);
             }
