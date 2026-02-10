@@ -71,7 +71,10 @@ namespace com.mani.muzamil.amjad
         IEnumerator GoToLobby(float TimeDelay)
         {
             yield return new WaitForSecondsRealtime(TimeDelay);
-            PhotonNetwork.LoadLevel(0);
+            if (PhotonNetwork.IsConnectedAndReady)
+                PhotonNetwork.LoadLevel(0);
+            else
+                SceneManager.LoadScene(0);
 
         }
 

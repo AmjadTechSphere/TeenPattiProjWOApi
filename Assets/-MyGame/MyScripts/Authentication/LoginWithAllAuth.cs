@@ -180,7 +180,8 @@ public class LoginWithAllAuth : MonoBehaviour
         else
             Picc.sprite = UpdateAvatar.Instance.AvatorSpritesSquare.Sprites[0].Sprites;
         Image ReadyProfileImage = Picc;
-
+        AuthPanel.SetActive(false);
+        WaitPanel.SetActive(false);
     }
     public void ShowError(string errorMsg)
     {
