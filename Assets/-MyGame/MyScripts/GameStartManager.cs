@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using Photon.Realtime;
 using System.Collections;
-using ES3Types;
 using System.Numerics;
 //using static UnityEditor.PlayerSettings;
 

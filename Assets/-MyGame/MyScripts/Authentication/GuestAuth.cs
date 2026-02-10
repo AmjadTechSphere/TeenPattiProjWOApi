@@ -97,6 +97,7 @@ public class GuestAuth : MonoBehaviour
             }
 
             AuthResult result = task.Result;
+            Debug.LogError(result.ToString());
             //UpdateText("New User ID: " + result.User.UserId + "     DisPlayname: " + result.User.DisplayName);
             //ShowPopUpMessage("New User ID: " + result.User.UserId + "\n  DisPlayname: " + result.User.DisplayName);
             GetUserIDString.Invoke(auth.CurrentUser.UserId, "Your ID is newly created");

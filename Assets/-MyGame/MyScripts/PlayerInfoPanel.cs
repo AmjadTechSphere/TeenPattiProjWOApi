@@ -113,7 +113,7 @@ public class PlayerInfoPanel : MonoBehaviourPunCallbacks
     void OnClickAddFriendBtn(int playerID, int IncrementedID)
     {
         Debug.LogError("Show Player ID...." + playerID + "  with Incremented ID..." + IncrementedID);
-        FriendListTD.Instance.SearchFriendByPlayerIDInGamePlay(playerID.ToString());
+       
     }
 
 

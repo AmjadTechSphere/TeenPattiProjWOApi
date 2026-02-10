@@ -34,10 +34,7 @@ public class MenuBGUpdate : MonoBehaviour
         //Invoke(nameof(AddChips), 10f);
     }
 
-    void AddChips()
-    {
-        GoldWinLoose.Instance.SendGold("MenuBg", "BackGround", "BG", GoldWinLoose.Trans.win, "9879614274541");
-    }
+   
 
     void CreateMenuShopBG()
     {
@@ -88,7 +85,7 @@ public class MenuBGUpdate : MonoBehaviour
             if (LocalSettings.GetMenuBgSaveIndex(indexOfChild) == 0)
             {
                 BigInteger bgCost = menuBGCollection.menuBackgrounds[indexOfChild].BgCost;
-                GoldWinLoose.Instance.SendGold("MenuBg", "BackGround", "BG",GoldWinLoose.Trans.bet, bgCost.ToString());
+               
                 Debug.LogError("Bg Cost" + bgCost.ToString());
                 LocalSettings.SetMenuBgSaveIndex(indexOfChild, 1);
                 AssignMenuBG(indexOfChild);

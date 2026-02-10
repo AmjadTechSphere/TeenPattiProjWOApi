@@ -549,11 +549,7 @@ namespace com.mani.muzamil.amjad
         }
 
 
-        public void GetMyText()
-        {
-            RestAPILuqman.Instance.GetChips(UpdateAllTextsOfCash);
-        }
-
+      
 
         public void UpdateAllTextsOfCash(BigInteger cash)
         {
@@ -753,7 +749,7 @@ namespace com.mani.muzamil.amjad
             if (XPLevelCalculator.Instance.CurrentLevel > levelNumber)
             {
                 BigInteger reward = LocalSettings.levelUpRewardAmount * XPLevelCalculator.Instance.CurrentLevel;
-                GoldWinLoose.Instance.SendGold("XP Level Reward", "XP Level Reward", "XP Level Reward", GoldWinLoose.Trans.win, reward.ToString());
+              
                 LocalSettings.SetTotalChips(reward);
                 UIManager.Instance.PlayerTotalCashText.text = LocalSettings.Rs(LocalSettings.GetTotalChips());
                 UIManager.Instance.GetMyPlayerInfo().player.SetCustomBigIntegerData(LocalSettings.MyTotalCashKey, LocalSettings.GetTotalChips());

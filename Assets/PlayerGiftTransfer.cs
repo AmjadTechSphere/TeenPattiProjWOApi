@@ -106,7 +106,7 @@ namespace com.mani.muzamil.amjad
             else
             {
                 gameManager.PlayerTotalChipsUpdate(giftCost);
-                GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.gift, giftCost.ToString());
+            
                 uIManager.GetMyPlayerInfo().playerTotalCash.text = LocalSettings.Rs(LocalSettings.GetTotalChips());
                 uIManager.GetMyPlayerInfo().player.SetCustomBigIntegerData(LocalSettings.MyTotalCashKey, LocalSettings.GetTotalChips());
 

@@ -790,7 +790,7 @@ namespace com.mani.muzamil.amjad
                     if (PokerActionPanel.Instance.ActionPanelPoker.activeSelf)
                         PokerActionPanel.Instance.ActionPanelPoker.SetActive(false);
                     LocalSettings.SetTotalChips(LocalSettings.GetPokerBuyInChips());
-                    GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.win, LocalSettings.GetPokerBuyInChips().ToString());
+                   
                     LocalSettings.SetPokerBuyInChips(-LocalSettings.GetPokerBuyInChips());
                     playerInfo.PokerTotalCash = LocalSettings.GetPokerBuyInChips();
                     playerInfo.player.SetCustomBigIntegerData(LocalSettings.PlayerPokerTableCashKey, playerInfo.PokerTotalCash);

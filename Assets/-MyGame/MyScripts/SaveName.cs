@@ -49,7 +49,7 @@ public class SaveName : MonoBehaviour
              UpdateFrames.Instance.NameText.text = PlayerPrefs.GetString("name");
 
 
-            RestAPI.Instance.EditPlayerDetail(name, "", null);
+            
         }
     }
 

@@ -154,7 +154,7 @@ namespace com.mani.muzamil.amjad
                             if (UIManager.Instance.GetMyPlayerInfo().photonView.IsMine)
                             {
                                 GameManager.Instance.PlayerTotalChipsUpdate(Pot.instance.potSize);
-                                GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.win, Pot.instance.potSize.ToString());
+                                
 
                             }
                         }
@@ -209,7 +209,7 @@ namespace com.mani.muzamil.amjad
                             {
 
                                 GameManager.Instance.PlayerTotalChipsUpdate(Pot.instance.potSize);
-                                GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.win, Pot.instance.potSize.ToString());
+                               
 
 
                             }

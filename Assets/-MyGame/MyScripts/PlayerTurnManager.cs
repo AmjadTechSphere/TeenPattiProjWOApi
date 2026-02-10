@@ -57,7 +57,7 @@ namespace com.mani.muzamil.amjad
             if (UIManager.Instance.GetMyPlayerInfo().IsSeen)
                 chalAmount = Pot.instance.CurrentChalAmount * 2;
             gameManagerInstance.PlayerTotalChipsUpdate(-chalAmount);
-            GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.bet, chalAmount.ToString());
+
             UIManager.Instance.TotalBetPlacedAmount += chalAmount;
             // Debug.LogError("TotatlbetPlaceAMount   " + UIManager.Instance.TotalBetPlacedAmount);
             UIManager.Instance.GetMyPlayerInfo().AddToPot(chalAmount);

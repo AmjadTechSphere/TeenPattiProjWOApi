@@ -549,9 +549,6 @@ namespace com.mani.muzamil.amjad
                 uIManager.TotalBetPlacedAmount += WingoCurrentBetAmount;
                 uIManager.TotalBetPlaceFor1Game += WingoCurrentBetAmount;
                 uIManager.isPlayerPlayedThisHand = true;
-
-
-                WingoLottaryAPI.Instance.WingoLottarySendBet(PointNumberInt.ToString(), WingoCurrentBetAmount.ToString(), WinningNumber.ToString());
             }
         }
 

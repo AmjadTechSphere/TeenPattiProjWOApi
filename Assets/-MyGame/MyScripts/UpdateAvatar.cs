@@ -87,7 +87,6 @@ namespace com.mani.muzamil.amjad
             NewObj.SetActive(false);
 
             Debug.Log("Sprite name is: " + image.name);
-            RestAPI.Instance.EditPlayerDetail("", "", image);
         }
 
         public void AllAvatarSpriteSame(Sprite serverSprite)

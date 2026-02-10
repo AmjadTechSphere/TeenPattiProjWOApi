@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static GoldWinLoose;
 
 public class GoldCollect : MonoBehaviour
 {
@@ -27,7 +26,7 @@ public class GoldCollect : MonoBehaviour
                 {
                     // gold add
                     string randomString = GenerateRandomAlphaNumericString();
-                    GoldWinLoose.Instance.SendGold(randomString, "POKER", "POKER10000000", Trans.win, "90000000000");
+                   
                     counter = 0;
                 }
             }

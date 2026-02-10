@@ -803,7 +803,7 @@ namespace com.mani.muzamil.amjad
 
 
             photonView.RPC(nameof(TipToGirl), RpcTarget.All, dialogueNumber);
-            GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.tip, Pot.instance.potTip.ToString());
+           
         }
 
 
@@ -934,7 +934,7 @@ namespace com.mani.muzamil.amjad
                         if (LocalSettings.GetTotalChips() >= Pot.instance.startPotAmount)
                         {
                             GameManager.Instance.PlayerTotalChipsUpdate(-Pot.instance.startPotAmount);
-                            GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.bet, Pot.instance.startPotAmount.ToString());
+                           // GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.bet, Pot.instance.startPotAmount.ToString());
                             UIManager.Instance.TotalBetPlacedAmount += Pot.instance.startPotAmount;
                         }
                         else
@@ -1225,7 +1225,7 @@ namespace com.mani.muzamil.amjad
             {
                 GameManager.Instance.PlayerTotalChipsUpdate(-Pot.instance.startPotAmount);
                 UIManager.Instance.TotalBetPlacedAmount += Pot.instance.startPotAmount;
-                GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.bet, Pot.instance.startPotAmount.ToString());
+               // GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.bet, Pot.instance.startPotAmount.ToString());
             }
 
         }

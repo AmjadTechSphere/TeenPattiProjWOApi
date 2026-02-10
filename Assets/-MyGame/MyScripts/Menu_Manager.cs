@@ -136,7 +136,7 @@ namespace com.mani.muzamil.amjad
             if (LocalSettings.GetPokerBuyInChips() > 0)
             {
                 BigInteger amount = LocalSettings.GetPokerBuyInChips();
-                GoldWinLoose.Instance.SendGold("Main Menu", "Poker", "Remaing Poker Buyin Chips", GoldWinLoose.Trans.win, amount.ToString());
+
                 LocalSettings.SetPokerBuyInChips(-amount);
             }
         }
@@ -321,7 +321,7 @@ namespace com.mani.muzamil.amjad
         {
             if (LocalSettings.isPasswordRequired && !LocalSettings.IsPasswordChecked)
             {
-                GoldProtection.Instance.AuthenticateWithPassword(LoadAndStartGame, EnumNumber);
+               
                 return;
             }
             BigInteger betAmount = LocalSettings.StringToBigInteger(EnumNumber);
@@ -578,69 +578,8 @@ namespace com.mani.muzamil.amjad
             Application.Quit();
         }
 
-        public void SetUserNameAndOtherThings(MyPlayerData myPlayerData)
-        {
-
-            StartCoroutine(SetUserNameAndOtherThingsCoroutine(myPlayerData));
-        }
-
-
-        IEnumerator SetUserNameAndOtherThingsCoroutine(MyPlayerData myPlayerData)
-        {
-            yield return new WaitUntil(() => Application.internetReachability != NetworkReachability.NotReachable);
-            if (myPlayerData.player == null)
-            {
-                LogOut();
-                yield break;
-            }
-
-            // Account freeze functionality
-
-
-
-            Debug.Log("User things are setting up now");
-            PlayerName.text = myPlayerData.player.username;
-            PhotonNetwork.LocalPlayer.NickName = myPlayerData.player.username;
-            PlayerPrefs.SetString("name", myPlayerData.player.username);
-
-            PlayerID.text = "ID: " + myPlayerData.player.playerID.ToString();
-            TotalXP.text = "Level " + myPlayerData.player.xp;
-            TotalChips.text = LocalSettings.Rs(myPlayerData.total_chips);
-
-            //Debug.LogError("saving value from player data: " + myPlayerData.player.collected_at);
-            //LocalSettings.GetSetXPLevelRewardCollectedAt = LocalSettings.StringToBigInteger(myPlayerData.player.collected_at);
-            LocalSettings.SetPlayername(myPlayerData.player.username);
-            LocalSettings.SetPlayerStatus(myPlayerData.player.status);
-            LocalSettings.SetPlayerID(myPlayerData.player.playerID);
-
-            LocalSettings.SetIncrementedPlayerID(myPlayerData.player.id);
-            // set server chips to local settings
-            LocalSettings.SetTotalServerChips(myPlayerData.total_chips);
-            XPLevelCalculator.Instance.UpDateXpFromServer(myPlayerData.player.xp);
-            LocalSettings.TotalXpMyPlayer = int.Parse(myPlayerData.player.xp);
-            RestAPI.Instance.RetrieveImageFromDB(myPlayerData.player.image.ToString());
-            LocalSettings.ProfilePicName = myPlayerData.player.image.ToString();
-            NetworkSettings.Instance.AssignPicToPlayerPropertiesStringForm(LocalSettings.ProfilePicName);
-            if (PhotonNetwork.IsConnectedAndReady)
-            {
-                PhotonNetwork.LocalPlayer.SetCustomData(LocalSettings.player_Incremented_ID_Key, LocalSettings.GetIncrementedPlayerID());
-                PhotonNetwork.LocalPlayer.SetCustomData(LocalSettings.player_ID_Key, LocalSettings.GetPlayerID());
-            }
-            LocalSettings.SetVIPStatus(myPlayerData.player.status);
-            if (myPlayerData.player.status == "dealer")
-            {
-                RestAPI.Instance.VIPStatus.SetActive(true);
-            }
-            else
-            {
-                RestAPI.Instance.VIPStatus.SetActive(false);
-
-            }
-
-            GoldTransfer.Instance.PlayerTotalChips.text = LocalSettings.Rs(myPlayerData.total_chips);
-            GoldProtection.Instance.GetGoldProtectionDetail();
-            dailyReward.GetTodayDailyRewardStatusNow(0);
-        }
+    
+       
 
         public Sprite ConvertTexture2DToSprite(Texture2D tex)
         {

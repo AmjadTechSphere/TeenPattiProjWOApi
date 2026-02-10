@@ -654,7 +654,7 @@ namespace com.mani.muzamil.amjad
                 LocalSettings.SetTotalChips(-DTCurrentBetAmount);
                 //GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.bet, DTCurrentBetAmount.ToString());
                 int PointNumberInt = PointNumber - 1;
-                DragonTigerAPI.Instance.DTSendBet(PointNumberInt.ToString(), DTCurrentBetAmount.ToString(), getWinPoint().ToString());
+             
                 TotalAmountPlacedOnBet += DTCurrentBetAmount;
                 if (MyPlayerInfo == null)
                     MyPlayerInfo = uIManager.GetMyPlayerInfo();

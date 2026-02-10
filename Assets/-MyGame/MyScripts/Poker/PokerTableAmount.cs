@@ -57,7 +57,7 @@ namespace com.mani.muzamil.amjad
             {
                 BigInteger amount = LocalSettings.GetStartingMinAmountPoker();
                 Debug.LogError("poker entry amount......" + amount);
-                GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.bet, amount.ToString());
+               
                 LocalSettings.SetPokerBuyInChips(amount);
                 PokerManager.Instance.BuyInCashPanel.SetActive(false);
                 OnJoinNowBtnClick();
@@ -112,7 +112,7 @@ namespace com.mani.muzamil.amjad
 
 
                 LocalSettings.SetTotalChips(-CurrentBuyInAmount);
-                GoldWinLoose.Instance.SendGold(GoldWinLoose.Trans.bet, CurrentBuyInAmount.ToString());
+
                 LocalSettings.SetPokerBuyInChips(CurrentBuyInAmount);
 
                 GameManager.Instance.StartingThings();

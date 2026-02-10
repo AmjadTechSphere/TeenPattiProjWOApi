@@ -195,17 +195,17 @@ namespace com.mani.muzamil.amjad
             if (firstCardPower > myCardpower)
             {
                 Debug.LogError("game loose on low card");
-                LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.bet, betAmount, LuckyWarAPI.BetType.lose);
+               // LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.bet, betAmount, LuckyWarAPI.BetType.lose);
             }
             else if (firstCardPower < myCardpower)
             {
                 Debug.LogError("game win");
-                LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.bet, betAmount, LuckyWarAPI.BetType.win);
+               // LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.bet, betAmount, LuckyWarAPI.BetType.win);
             }
             else
             {
                 Debug.LogError("game loose on tie card");
-                LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.bet, betAmount, LuckyWarAPI.BetType.lose);
+               // LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.bet, betAmount, LuckyWarAPI.BetType.lose);
             }
         }
 
@@ -221,19 +221,16 @@ namespace com.mani.muzamil.amjad
             if (firstCardPower == myCardpower)
             {
                 Debug.LogError("Calling tie equal win");
-                LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.tie, betAmount, LuckyWarAPI.BetType.win);
+               // LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.tie, betAmount, LuckyWarAPI.BetType.win);
             }
             else
             {
                 Debug.LogError("Calling tie loose");
-                LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.tie, betAmount, LuckyWarAPI.BetType.lose);
+              //  LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.tie, betAmount, LuckyWarAPI.BetType.lose);
             }
         }
 
-        public void onSurrenderBtnClick()
-        {
-            LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.surrender, surrenderAmountOfBet, LuckyWarAPI.BetType.win);
-        }
+       
 
         public void onGotoWarBtnClick()
         {
@@ -247,12 +244,12 @@ namespace com.mani.muzamil.amjad
             if (firstCardPower > myCardpower)
             {
                 Debug.LogError("game loose on low card");
-                LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.war, surrenderAmountOfBet, LuckyWarAPI.BetType.lose);
+                
             }
             else
             {
                 Debug.LogError("game win");
-                LuckyWarAPI.Instance.LuckyWarSendBet(LuckyWarAPI.BetType.war, surrenderAmountOfBet, LuckyWarAPI.BetType.win);
+               
             }
         }
 
@@ -772,7 +769,6 @@ namespace com.mani.muzamil.amjad
         public void OnSurrenderBetAmountGone(PlayerInfo info)
         {
             int viewID = info.photonView.ViewID;
-            onSurrenderBtnClick();
             photonView.RPC(nameof(RemainingBetLose), RpcTarget.All, viewID);
         }
 

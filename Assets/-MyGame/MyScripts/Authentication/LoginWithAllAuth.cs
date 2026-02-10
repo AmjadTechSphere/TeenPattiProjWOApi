@@ -60,7 +60,7 @@ public class LoginWithAllAuth : MonoBehaviour
         {
             fBBtnOfPlayerInfo.SetActive(false);
             AuthPanel.SetActive(false);
-            RestAPI.Instance.GetAndSetPlayerDetail();
+           
         }
 
     }
@@ -99,7 +99,7 @@ public class LoginWithAllAuth : MonoBehaviour
         //}
 
         //DeviceID = RestAPI.Instance.MyDeviceId;
-        DeviceID = (AuthTypeScr == 1) ? RestAPI.Instance.MyDeviceId : "";
+        DeviceID = (AuthTypeScr == 1) ? SystemInfo.deviceUniqueIdentifier.ToString() : "";
         Debug.LogError("Amjad first:___________________________________ " + UserName + "     Src name: " + UserNameSrc);
         switch (AuthType)
         {
@@ -180,7 +180,7 @@ public class LoginWithAllAuth : MonoBehaviour
         else
             Picc.sprite = UpdateAvatar.Instance.AvatorSpritesSquare.Sprites[0].Sprites;
         Image ReadyProfileImage = Picc;
-        RestAPI.Instance.CreatePlayer(AuthType.ToString(), TokenID, DeviceID, UserName, EmailID, Status, ReadyProfileImage);
+
     }
     public void ShowError(string errorMsg)
     {

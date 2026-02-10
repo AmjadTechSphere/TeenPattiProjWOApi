@@ -1151,31 +1151,6 @@ namespace com.mani.muzamil.amjad
             int CardPower = AllCards[randomCardIndex].Power;
             if (CardPower == FirstCardPower)
             {
-                if (isTrue)
-                {
-                    //Debug.LogError("Result decleared Andar Wins --------------");
-                    // Debug.LogError("Result decleared Bahar 1 lose --------------" + LocalSettings.Rs(BaharTotalBetAmount));
-                    AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.bahr1, BaharTotalBetAmount.ToString(), AndarBaharAPI.BetType.lose);
-                }
-                else
-                {
-                    //Debug.LogError("Result decleared Bahar Wins --------------");
-
-                    if (i == 1)
-                    {
-                        // Debug.LogError("Check Bahar 1.....1st..");
-                        //  Debug.LogError("Result decleared Bahar 1 win --------------" + LocalSettings.Rs(BaharTotalBetAmount));
-                        AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.bahr1, BaharTotalBetAmount.ToString(), AndarBaharAPI.BetType.win);
-                    }
-                    else
-                    {
-                        // Debug.LogError("Check Bahar 1......2nd....");
-                        // Debug.LogError("Result decleared Bahar 1 or Bahar 2 win --------------" + LocalSettings.Rs(BaharTotalBetAmount));
-                        AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.bahr2, BaharTotalBetAmount.ToString(), AndarBaharAPI.BetType.win);
-                    }
-
-
-                }
                 isNumberMatched = true;
             }
         }
@@ -1210,18 +1185,7 @@ namespace com.mani.muzamil.amjad
             int CardPower = AllCards[randomCardIndex].Power;
             if (CardPower == FirstCardPower)
             {
-                if (isTrue)
-                {
-                    //Debug.LogError("Result decleared Andar Wins --------------");
-                    // Debug.LogError("Result decleared Bahar 2 lose --------------" + LocalSettings.Rs(BaharTotalBetAmount));
-                    AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.bahr2, BaharTotalBetAmount.ToString(), AndarBaharAPI.BetType.lose);
-                }
-                else
-                {
-                    //Debug.LogError("Result decleared Bahar Wins --------------");
-                    // Debug.LogError("Result decleared Bahar 2 Wins --------------" + LocalSettings.Rs(BaharTotalBetAmount));
-                    AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.bahr2, BaharTotalBetAmount.ToString(), AndarBaharAPI.BetType.win);
-                }
+                
                 isNumberMatched = true;
             }
         }
@@ -1256,17 +1220,6 @@ namespace com.mani.muzamil.amjad
             int CardPower = AllCards[randomCardIndex].Power;
             if (CardPower == FirstCardPower)
             {
-                if (isTrue)
-                {
-                    //Debug.LogError("Result decleared Andar Wins --------------");
-                    AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.andar, AndarTotalBetAmount.ToString(), AndarBaharAPI.BetType.win);
-                }
-                else
-                {
-                    //Debug.LogError("Result decleared Bahar Wins --------------");
-
-                    AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.andar, AndarTotalBetAmount.ToString(), AndarBaharAPI.BetType.lose);
-                }
                 isNumberMatched = true;
             }
         }
@@ -1300,19 +1253,6 @@ namespace com.mani.muzamil.amjad
             int CardPower = AllCards[randomCardIndex].Power;
             if (CardPower == FirstCardPower)
             {
-                if (isTrue)
-                {
-                    //Debug.LogError("Result decleared Andar Wins --------------");
-                    AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.superBahr, SuperBaharAmount, AndarBaharAPI.BetType.lose);
-                }
-                else
-                {
-                    //Debug.LogError("Result decleared Bahar Wins --------------");
-                    if (i == 1)
-                        AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.superBahr, SuperBaharAmount, AndarBaharAPI.BetType.win);
-                    else
-                        AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.superBahr, SuperBaharAmount, AndarBaharAPI.BetType.lose);
-                }
                 isNumberMatched = true;
             }
         }
@@ -1344,19 +1284,7 @@ namespace com.mani.muzamil.amjad
             int CardPower = AllCards[randomCardIndex].Power;
             if (CardPower == FirstCardPower)
             {
-                if (isTrue)
-                {
-                    //Debug.LogError("Result decleared Andar Wins --------------");
-                    AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.superBahr, SuperBaharAmount, AndarBaharAPI.BetType.lose);
-                }
-                else
-                {
-                    //Debug.LogError("Result decleared Bahar Wins --------------");                  
-                    if (i == 3)
-                        AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.superBahr, SuperBaharAmount, AndarBaharAPI.BetType.win);
-                    else
-                        AndarBaharAPI.Instance.AndarBaharSendBet(AndarBaharAPI.BetType.superBahr, SuperBaharAmount, AndarBaharAPI.BetType.lose);
-                }
+              
                 isNumberMatched = true;
             }
         }
