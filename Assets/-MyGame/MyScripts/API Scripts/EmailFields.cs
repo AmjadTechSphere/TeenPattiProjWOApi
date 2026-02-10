@@ -10,18 +10,9 @@ public class EmailFields : MonoBehaviour
     public int indexOfEmail;
  
 
-    public void EmailListFieldsFill(EmailList emailList, int index)
-    {
-        indexOfEmail = index;
-        DateOfEmail.text = emailList.players[indexOfEmail].updated_at.ToString();
-        idToOpenEmail = emailList.players[indexOfEmail].id;
-        
-    }
+    
 
-    public void OnEmailBtnClick()
-    {
-        EmailCollectChips.Instance.OpenEmail(idToOpenEmail, DateOfEmail.text);
-    }
+    
 
     // _______________________________________________________________________
     // History fields

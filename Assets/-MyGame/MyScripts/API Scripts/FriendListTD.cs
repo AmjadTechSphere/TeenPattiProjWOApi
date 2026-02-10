@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
-public class FriendListTD : ES3Cloud
+public class FriendListTD : MonoBehaviour
 {
     public RectTransform FriendDetailField;
     public RectTransform FriendRequestField;
@@ -40,10 +40,7 @@ public class FriendListTD : ES3Cloud
 
 
     }
-    protected FriendListTD(string url, string apiKey) : base(url, apiKey)
-    {
-
-    }
+    
     #endregion
 
     // Getting all friends List
@@ -64,29 +61,12 @@ public class FriendListTD : ES3Cloud
     {
         GoldTransfer.Instance.LoadingPanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.1f);
-        string url = APIStrings.FriendsListURLAPI + tokenIDFromServer;
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            Debug.Log("Getting List of friends");
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            FriendListClass = new FriendListTDAPI();
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Error is: " + webRequest.result);
-                onDataReceived?.Invoke(FriendListClass);
-            }
-            else
-            {
-                Debug.Log("Success is: " + webRequest.result);
-            }
+       
 
             GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            string jsonString = webRequest.downloadHandler.text;
-            Debug.Log("Json String is: " + jsonString);
-            FriendListClass = JsonConvert.DeserializeObject<FriendListTDAPI>(jsonString);
+      
             onDataReceived?.Invoke(FriendListClass);
-        }
+        
     }
 
     void GetFriendsList(FriendListTDAPI friendListRoot)
@@ -209,18 +189,8 @@ public class FriendListTD : ES3Cloud
         using (var webRequest = UnityWebRequest.Get(url))
         {
             Debug.Log("Getting List of pending friends requests");
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            SearchFiendClass = new SearchFriendAPI();
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Error is: " + webRequest.result);
-                GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            }
-            else
-            {
-                Debug.Log("Success is: " + webRequest.result);
-            }
+            yield return new WaitForSeconds(0);
+          
 
             string jsonString = webRequest.downloadHandler.text;
             //Debug.LogError(jsonString);
@@ -283,28 +253,14 @@ public class FriendListTD : ES3Cloud
     {
         GoldTransfer.Instance.LoadingPanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.1f);
-        string url = APIStrings.PendingFriendsRequestsURLAPI + playerID;
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            Debug.Log("Getting List of pending friends requests");
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            PendingFriendRequestsClass = new PendingFriendRequestsAPI();
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Error is: " + webRequest.result);
-            }
-            else
-            {
-                Debug.Log("Success is: " + webRequest.result);
-            }
+       
 
-            string jsonString = webRequest.downloadHandler.text;
+          
             //Debug.LogError(jsonString);
-            PendingFriendRequestsClass = JsonConvert.DeserializeObject<PendingFriendRequestsAPI>(jsonString);
+           
             onDataReceived?.Invoke(PendingFriendRequestsClass);
             GoldTransfer.Instance.LoadingPanel.SetActive(false);
-        }
+        
     }
     List<GameObject> FriendsRequestsTDFieldsList = new List<GameObject>();
     void GetPendingRequestsList(PendingFriendRequestsAPI friendRequestListRoot)
@@ -360,35 +316,11 @@ public class FriendListTD : ES3Cloud
 
     public IEnumerator ChangeStatusFriendUsingAPI(string IDOfOtherFriend, string statusString, Action methodNameToCall)
     {
+        yield return new WaitForSeconds(0);
 
-        string url = APIStrings.FriendStatusChangeURLAPI;
-        formData = new List<KeyValuePair<string, string>>();
-        AddPOSTField(increentedID, IDOfOtherFriend);
-        AddPOSTField(status, statusString);
-        Debug.Log("status string is: " + statusString + "     Status field is: " + status + "     Incre ID: " + IDOfOtherFriend);
-        WWWForm form = CreateWWWForm();
-
-        using (var webRequest = UnityWebRequest.Post(url, form))
-        {
-            GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            webRequest.timeout = 15;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Friend Status Change failed ");
-                int responseCode = (int)webRequest.responseCode;
-                string responseText = webRequest.downloadHandler.text;
-                Debug.LogError("response COde: " + responseCode + "     : Response text: " + responseText);
-            }
-            else
-            {
-                Debug.Log("Friend Status Changed successfully ");
-            }
-            GoldTransfer.Instance.LoadingPanel.SetActive(false);
+        GoldTransfer.Instance.LoadingPanel.SetActive(false);
             methodNameToCall?.Invoke();
-        }
+        
 
     }
 
@@ -419,34 +351,12 @@ public class FriendListTD : ES3Cloud
     public IEnumerator AddNewFriendAPI(string myplayerIncrementedID, string friendIncrementedID, Action methodNameToCall)
     {
 
-        string url = APIStrings.AddNewFriendURLAPI;
-        formData = new List<KeyValuePair<string, string>>();
-        AddPOSTField(addFriendPlayerID, myplayerIncrementedID);
-        AddPOSTField(addFriendFriendID, friendIncrementedID);
-        //  Debug.LogError("status string is: " + statusString + "     Status field is: " + status + "     Incre ID: " + IDOfOtherFriend);
-        WWWForm form = CreateWWWForm();
-
-        using (var webRequest = UnityWebRequest.Post(url, form))
-        {
-            GoldTransfer.Instance.LoadingPanel.SetActive(true);
-            webRequest.timeout = 15;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Add new friend field failed ");
-                int responseCode = (int)webRequest.responseCode;
-                string responseText = webRequest.downloadHandler.text;
-                Debug.LogError("response COde: " + responseCode + "     : Response text: " + responseText);
-            }
-            else
-            {
+       
                 Debug.Log("friend request send successfully ");
-            }
+        yield return new WaitForSeconds(0);
             GoldTransfer.Instance.LoadingPanel.SetActive(false);
             methodNameToCall?.Invoke();
-        }
+        
     }
     #endregion
 }

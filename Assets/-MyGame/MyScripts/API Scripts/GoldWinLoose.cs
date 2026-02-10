@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class GoldWinLoose : ES3Cloud
+public class GoldWinLoose : MonoBehaviour
 {
     public enum Trans
     {
@@ -48,10 +48,7 @@ public class GoldWinLoose : ES3Cloud
         if (_instance == null)
             _instance = this;
     }
-    protected GoldWinLoose(string url, string apiKey) : base(url, apiKey)
-    {
-
-    }
+   
     #endregion
 
 
@@ -71,48 +68,19 @@ public class GoldWinLoose : ES3Cloud
     }
     public IEnumerator SendPlayerDataToAPIToCreatePlayer(string roomID, string gameName, string tableName, Trans transType, string chipsAmount)
     {
-        string url = APIStrings.SendingWinLooseGold;
-        formData = new List<KeyValuePair<string, string>>();
-
-        AddPOSTField(RoomID, roomID);
-        AddPOSTField(GameName, gameName);
-        AddPOSTField(TokenID, PlayerTokenID());
-        AddPOSTField(TableName, tableName);
-        AddPOSTField(TrasactionType, transType.ToString());
-        AddPOSTField(Chips, chipsAmount);
-        //Debug.LogError("Room ID: " + roomID + "\ngame Name: " + gameName + "\nTable Name: " + tableName + "\nTransaction Type: " + transType.ToString() + "\nAmound: " + chipsAmount);
-        WWWForm form = CreateWWWForm();
-
-        using (var webRequest = UnityWebRequest.Post(url, form))
+        yield return new WaitForSeconds(0);
+        //Debug.LogError(transType.ToString() + "chips Added/subtracted");
+        if (LocalSettings.IsMenuScene())
         {
-            webRequest.timeout = 25;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-
-            int responseCode = (int)webRequest.responseCode;
-            string responseText = webRequest.downloadHandler.text;
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Result: " + webRequest.result);
-                if (webRequest.result.ToString().Contains("Protocol") || webRequest.result.ToString().Contains("protocol"))
-                {
-                    Debug.LogError("error Type:" + webRequest.result + ",  " + transType + ": not sent : error code: " + responseCode + "\nError Detail: " + responseText);
-                }
-            }
-            else
-            {
-                //Debug.LogError(transType.ToString() + "chips Added/subtracted");
-                if (LocalSettings.IsMenuScene())
-                {
-                    Debug.Log("Updating player chips");
-                    RestAPI.Instance.FetchData(LocalSettings.GetTokenID(), Menu_Manager.Instance.SetUserNameAndOtherThings);
-                }
-                else
-                {
-                    UpdatePlayerChipOnServerSide();
-                }
-            }
+            Debug.Log("Updating player chips");
+            RestAPI.Instance.FetchData(LocalSettings.GetTokenID(), Menu_Manager.Instance.SetUserNameAndOtherThings);
         }
+        else
+        {
+            UpdatePlayerChipOnServerSide();
+        }
+
+
     }
 
     #endregion
@@ -131,31 +99,12 @@ public class GoldWinLoose : ES3Cloud
     {
         //GoldTransfer.Instance.LoadingPanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.1f);
-        string url = APIStrings.PlayerChipsUpdate + playerId;
-        updatePlayerChips = new PlayerChips();
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            //  GoldTransfer.Instance.LoadingPanel.SetActive(true);
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error is: " + webRequest.result);
-            }
-            else
-            {
-                Debug.Log("success is: " + webRequest.result);
-            }
-            string jsonString = webRequest.downloadHandler.text;
-            //Debug.LogError(jsonString);
-            //  GoldTransfer.Instance.LoadingPanel.SetActive(false);
 
-            updatePlayerChips = JsonConvert.DeserializeObject<PlayerChips>(jsonString);
-            //  GoldTransfer.Instance.LoadingPanel.SetActive(false);
+        //  GoldTransfer.Instance.LoadingPanel.SetActive(false);
 
-            //Debug.LogError("playerChips Status...." + updatePlayerChips.success + "...Get Total Chips...." + updatePlayerChips.total_chips);
+        //Debug.LogError("playerChips Status...." + updatePlayerChips.success + "...Get Total Chips...." + updatePlayerChips.total_chips);
 
-        }
+
     }
 
     public void GetplayerGoldAndVIPStatusDate(string playerId, Action<PlayerChips> FunctionName)
@@ -166,31 +115,15 @@ public class GoldWinLoose : ES3Cloud
     {
         //GoldTransfer.Instance.LoadingPanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.1f);
-        string url = APIStrings.PlayerChipsUpdate + playerId;
-        updatePlayerChips = new PlayerChips();
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            //  GoldTransfer.Instance.LoadingPanel.SetActive(true);
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error is: " + webRequest.result);
-            }
-            else
-            {
-                Debug.Log("success is: " + webRequest.result);
-            }
-            string jsonString = webRequest.downloadHandler.text;
-            Debug.Log(jsonString);
-            //  GoldTransfer.Instance.LoadingPanel.SetActive(false);
 
-            updatePlayerChips = JsonConvert.DeserializeObject<PlayerChips>(jsonString);
-            //  GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            FunctionName?.Invoke(updatePlayerChips);
-            Debug.Log("playerChips Status...." + updatePlayerChips.success + "...Get Total Chips...." + updatePlayerChips.total_chips);
 
-        }
+        //  GoldTransfer.Instance.LoadingPanel.SetActive(false);
+
+        //  GoldTransfer.Instance.LoadingPanel.SetActive(false);
+        FunctionName?.Invoke(updatePlayerChips);
+        Debug.Log("playerChips Status...." + updatePlayerChips.success + "...Get Total Chips...." + updatePlayerChips.total_chips);
+
+
     }
 
     #endregion

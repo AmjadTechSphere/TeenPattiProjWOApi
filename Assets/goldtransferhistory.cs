@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static GoldWinLoose;
 
-public class goldtransferhistory : ES3Cloud
+public class goldtransferhistory : MonoBehaviour
 {
     public GameObject PlayerVIPIndicator;
     public TMP_Text PlayerVIPExpiryDaysTxt;
@@ -39,10 +39,7 @@ public class goldtransferhistory : ES3Cloud
         sentGoldFieldList = new List<GameObject>();
         ReceiveGoldFieldList = new List<GameObject>();
     }
-    protected goldtransferhistory(string url, string apiKey) : base(url, apiKey)
-    {
-
-    }
+   
     #endregion
 
     private void OnEnable()
@@ -167,29 +164,11 @@ public class goldtransferhistory : ES3Cloud
         GoldTransfer.Instance.LoadingPanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.1f);
         Debug.LogError("Token ID: " + playerIDFromServer);
-        string url = APIStrings.GettingSentGoldRecordAPIURL + playerIDFromServer;
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            GoldTransfer.Instance.LoadingPanel.SetActive(true);
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            playerGoldSentRecord = new PlayerGoldSentRecord();
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error is: " + webRequest.result);
-                onDataReceived?.Invoke(playerGoldSentRecord);
-            }
-            else
-            {
-                Debug.Log("success is: " + webRequest.result);
-            }
-            string jsonString = webRequest.downloadHandler.text;
-            Debug.Log("Gold History: " + jsonString);
-            GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            playerGoldSentRecord = JsonConvert.DeserializeObject<PlayerGoldSentRecord>(jsonString);
+       
+            playerGoldSentRecord = new PlayerGoldSentRecord();      
             GoldTransfer.Instance.LoadingPanel.SetActive(false);
             onDataReceived?.Invoke(playerGoldSentRecord);
-        }
+        
     }
     #endregion
 
@@ -209,29 +188,14 @@ public class goldtransferhistory : ES3Cloud
     {
         GoldTransfer.Instance.LoadingPanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.1f);
-        string url = APIStrings.GettingReceivedGoldRecordAPIURL + tokenIDFromServer;
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            Debug.LogError("Getting gold reveived record started");
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
+        
             playerGoldReceivedRecord = new PlayerGoldReceivedRecord();
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Error is: " + webRequest.result);
-                onDataReceived?.Invoke(playerGoldReceivedRecord);
-            }
-            else
-            {
-                Debug.LogError("Success is: " + webRequest.result);
-            }
+            
 
             GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            string jsonString = webRequest.downloadHandler.text;
-            //Debug.LogError(jsonString);
-            playerGoldReceivedRecord = JsonConvert.DeserializeObject<PlayerGoldReceivedRecord>(jsonString);
+
             onDataReceived?.Invoke(playerGoldReceivedRecord);
-        }
+        
     }
     #endregion
 
@@ -245,32 +209,18 @@ public class goldtransferhistory : ES3Cloud
     IEnumerator AcceptGoldFromOtherAPI(string IDToAcceptGold, BigInteger sentOrReceivedAmount)
     {
         GoldTransfer.Instance.LoadingPanel.SetActive(true);
-        string url = APIStrings.AcceptGoldFromOtherAPIURL + IDToAcceptGold;
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Error is: " + webRequest.result);
-                //Menu_Manager.Instance.GoldCollectedPanel(0);
-                Toaster.ShowAToast("Your Gold cancelled by the dealer. Contact with dealer");
-            }
-            else
-            {
-                Debug.LogError("Success is: " + webRequest.result);
-                if (LocalSettings.IsMenuScene())
-                    Menu_Manager.Instance.GoldCollectedPanel(sentOrReceivedAmount);
-                SoundManager.Instance.PlayAudioClip(SoundManager.AllSounds.GoldCollectFromSenderTick, false);
-            }
-            int responseCode = (int)webRequest.responseCode;
-            string responseText = webRequest.downloadHandler.text;
-            //Debug.LogError("response COde: " + responseCode + "     : Response text: " + responseText);
 
-            GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            GetGoldReceivedRecordBtn();
-            GetPlayerGoldSentRecord();
-        }
+        yield return new WaitForSeconds(0);
+        if (LocalSettings.IsMenuScene())
+            Menu_Manager.Instance.GoldCollectedPanel(sentOrReceivedAmount);
+        SoundManager.Instance.PlayAudioClip(SoundManager.AllSounds.GoldCollectFromSenderTick, false);
+
+        //Debug.LogError("response COde: " + responseCode + "     : Response text: " + responseText);
+
+        GoldTransfer.Instance.LoadingPanel.SetActive(false);
+        GetGoldReceivedRecordBtn();
+        GetPlayerGoldSentRecord();
+
     }
     #endregion
 
@@ -292,31 +242,17 @@ public class goldtransferhistory : ES3Cloud
     IEnumerator RecallGoldVIPMemnerAPI(string IDToRecallGold)
     {
         GoldTransfer.Instance.LoadingPanel.SetActive(true);
-        string url = APIStrings.RecallGoldForVIPMemberAPIURL + IDToRecallGold;
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Error is: " + webRequest.result);
-                GoldTransfer.Instance.LoadingPanel.SetActive(false);
-                RecallConfirmPanel.gameObject.SetActive(false);
-            }
-            else
-            {
-                Debug.LogError("Success is: " + webRequest.result);
-                GoldTransfer.Instance.LoadingPanel.SetActive(false);
-                RecallConfirmPanel.gameObject.SetActive(false);
-                GetPlayerGoldSentRecord();
 
-            }
-            int responseCode = (int)webRequest.responseCode;
-            string responseText = webRequest.downloadHandler.text;
-            RestAPI.Instance.FetchData(LocalSettings.GetTokenID(), Menu_Manager.Instance.SetUserNameAndOtherThings);
-            Debug.LogError("response COde: " + responseCode + "     : Response text: " + responseText);
-            GoldTransfer.Instance.LoadingPanel.SetActive(false);
-        }
+        yield return new WaitForSeconds(0);
+        GoldTransfer.Instance.LoadingPanel.SetActive(false);
+        RecallConfirmPanel.gameObject.SetActive(false);
+        GetPlayerGoldSentRecord();
+
+
+
+        RestAPI.Instance.FetchData(LocalSettings.GetTokenID(), Menu_Manager.Instance.SetUserNameAndOtherThings);
+        GoldTransfer.Instance.LoadingPanel.SetActive(false);
+
     }
 
     #endregion

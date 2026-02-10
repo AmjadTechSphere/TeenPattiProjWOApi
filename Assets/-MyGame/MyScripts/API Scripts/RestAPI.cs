@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class RestAPI : ES3Cloud//MonoBehaviour
+public class RestAPI : MonoBehaviour
 {
     [Header("Profile Pic Related Data")]
     public Sprite ProfilePic;
@@ -37,10 +37,7 @@ public class RestAPI : ES3Cloud//MonoBehaviour
     public string MyDeviceId;
 
     public MyPlayerData myPlayerData = new MyPlayerData();
-    protected RestAPI(string url, string apiKey) : base(url, apiKey)
-    {
-
-    }
+   
 
     // instance Creating of Rest API Script
     #region Creating Instance;
@@ -128,8 +125,7 @@ public class RestAPI : ES3Cloud//MonoBehaviour
         }
 
         GoldTransfer.Instance.PlayerTotalChips.text = LocalSettings.IsMenuScene() ? LocalSettings.Rs(myPlayerData.total_chips) : LocalSettings.Rs(LocalSettings.GetTotalChips());
-        if (LocalSettings.IsMenuScene())
-            GoldProtection.Instance.GetGoldProtectionDetail();
+
     }
 
     // Creating Player using API
@@ -143,45 +139,17 @@ public class RestAPI : ES3Cloud//MonoBehaviour
     public IEnumerator SendPlayerDataToAPIToCreatePlayer(string authType, string tokenID, string deviceID, string playerName, string emailID, string status, Image profilePic)
     {
         LoginWithAllAuth.Instance.ProgressTxt.text = "Verifying User...";
-        string url = APIStrings.CreateUserAPIURL;
-        formData = new List<KeyValuePair<string, string>>();
 
-        AddPOSTField(UserName, playerName);
-        AddPOSTField(TokenID, tokenID);
-        AddPOSTField(DeviceID, deviceID);
-        AddPOSTField(Email, emailID);
-        AddPOSTField(Status, status);
-        AddPOSTField(AuthType, authType);
+        yield return new WaitForSeconds(0);
+        Debug.LogError("Player created successfully, Data is uploaded successfully ");
+        LoginWithAllAuth.Instance.AuthPanel.SetActive(false);
+        LoginWithAllAuth.Instance.WaitPanel.SetActive(false);
+        FetchData(tokenID, Menu_Manager.Instance.SetUserNameAndOtherThings);
 
-        Debug.LogError("authType: " + authType + "   tokenID: " + tokenID + "     deviceID: " + deviceID + "     playerName: " + playerName + "     emailID: " + emailID + "     status: " + status);
-        WWWForm form = CreateWWWForm();
-        byte[] imageBytes = GetSpriteBytes(profilePic.sprite);
-        form.AddBinaryData(Image, imageBytes);
-        Debug.LogError("Posting form...");
-        using (var webRequest = UnityWebRequest.Post(url, form))
-        {
-            webRequest.timeout = 15;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Result: " + webRequest.result);
-                LoginWithAllAuth.Instance.AuthPanel.SetActive(true);
-                LoginWithAllAuth.Instance.WaitPanel.SetActive(false);
-                if (webRequest.result.ToString().Contains("Protocol") || webRequest.result.ToString().Contains("protocol"))
-                {
-                    FetchData(tokenID, Menu_Manager.Instance.SetUserNameAndOtherThings);
-                }
-            }
-            else
-            {
-                Debug.LogError("Player created successfully, Data is uploaded successfully ");
-                LoginWithAllAuth.Instance.AuthPanel.SetActive(false);
-                LoginWithAllAuth.Instance.WaitPanel.SetActive(false);
-                FetchData(tokenID, Menu_Manager.Instance.SetUserNameAndOtherThings);
-            }
 
-        }
+
+
+
 
     }
     #endregion
@@ -194,43 +162,13 @@ public class RestAPI : ES3Cloud//MonoBehaviour
     }
     public IEnumerator EditPlayerDetailToAPI(string newname, string emailID, Image profilePic)
     {
+        yield return new WaitForSeconds(1);
         LoginWithAllAuth.Instance.ProgressTxt.text = "Editing User Detail ...";
-        string url = APIStrings.EditUserDetailURLAPI;
-        formData = new List<KeyValuePair<string, string>>();
 
-        AddPOSTField(TokenID, LocalSettings.GetTokenID());
-        if (newname != "")
-            AddPOSTField(UserName, newname);
+        Debug.Log("Player created successfully, Data is uploaded successfully ");
+        FetchData(LocalSettings.GetTokenID(), Menu_Manager.Instance.SetUserNameAndOtherThings);
 
-        if (emailID != "")
-            AddPOSTField(Email, emailID);
 
-        WWWForm form = CreateWWWForm();
-        if (profilePic != null)
-        {
-            byte[] imageBytes = GetSpriteBytes(profilePic.sprite);
-            form.AddBinaryData(Image, imageBytes);
-        }
-        Debug.Log("Posting form...");
-        using (var webRequest = UnityWebRequest.Post(url, form))
-        {
-            webRequest.timeout = 15;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Result: " + webRequest.result);
-                if (webRequest.result.ToString().Contains("Protocol") || webRequest.result.ToString().Contains("protocol"))
-                {
-                    FetchData(LocalSettings.GetTokenID(), Menu_Manager.Instance.SetUserNameAndOtherThings);
-                }
-            }
-            else
-            {
-                Debug.Log("Player created successfully, Data is uploaded successfully ");
-                FetchData(LocalSettings.GetTokenID(), Menu_Manager.Instance.SetUserNameAndOtherThings);
-            }
-        }
     }
     #endregion
 
@@ -250,46 +188,21 @@ public class RestAPI : ES3Cloud//MonoBehaviour
         if (LocalSettings.IsMenuScene())
             if (!Menu_Manager.Instance.ModePanel())
                 GoldTransfer.Instance.LoadingPanel.SetActive(true);
-        string url = APIStrings.GetUserDetailAPIURL + tokenIDFromServer;
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            myPlayerData = new MyPlayerData();
 
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error is: " + webRequest.result);
-                onDataReceived?.Invoke(myPlayerData);
-            }
-            //else
-            //{
-            //    Debug.Log("success is: " + webRequest.result);
-            //}
-            string jsonString = webRequest.downloadHandler.text;
+        myPlayerData = new MyPlayerData();
 
-            //Debug.Log(jsonString);
 
-            //if (myPlayerData.player == null)
-            //    yield return null;
-            //Debug.Log("cehck Jason FIle String:       " + jsonString);
-            Debug.LogError("user not: " + jsonString);
-            if (jsonString.Contains("oops!, player not found"))
-            {
-                //Menu_Manager.Instance.LogOut();
-                //PhotonNetwork.LoadLevel(0);
-                yield break;
-            }
-            myPlayerData = JsonConvert.DeserializeObject<MyPlayerData>(jsonString);
-            GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            yield return new WaitUntil(() => Application.internetReachability != NetworkReachability.NotReachable);
-            //if (myPlayerData.player != null)
-            //{
-            //    Debug.Log("Player ID: " + myPlayerData.player.playerID + "\n" + "User Name: " + myPlayerData.player.username + "\n" + "Email: " + myPlayerData.player.email + "\n" + "Device ID: " + myPlayerData.player.deviceId + "\n" + "Phone: " + myPlayerData.player.phone + "\n" + "Token ID: " + myPlayerData.player.token_id + "\n" + "Auth Type: " + myPlayerData.player.auth_type + "\n" + "Status: " + myPlayerData.player.status + "\n" + "Chips: " + myPlayerData.total_chips + "\n" + "XP: " + myPlayerData.total_xp + "\n" + "Diamond: " + myPlayerData.total_diamond + "\n" + "Image: " + myPlayerData.player.image + "\n");
-            //}
 
-            onDataReceived?.Invoke(myPlayerData);
-        }
+
+        GoldTransfer.Instance.LoadingPanel.SetActive(false);
+        yield return new WaitUntil(() => Application.internetReachability != NetworkReachability.NotReachable);
+        //if (myPlayerData.player != null)
+        //{
+        //    Debug.Log("Player ID: " + myPlayerData.player.playerID + "\n" + "User Name: " + myPlayerData.player.username + "\n" + "Email: " + myPlayerData.player.email + "\n" + "Device ID: " + myPlayerData.player.deviceId + "\n" + "Phone: " + myPlayerData.player.phone + "\n" + "Token ID: " + myPlayerData.player.token_id + "\n" + "Auth Type: " + myPlayerData.player.auth_type + "\n" + "Status: " + myPlayerData.player.status + "\n" + "Chips: " + myPlayerData.total_chips + "\n" + "XP: " + myPlayerData.total_xp + "\n" + "Diamond: " + myPlayerData.total_diamond + "\n" + "Image: " + myPlayerData.player.image + "\n");
+        //}
+
+        onDataReceived?.Invoke(myPlayerData);
+
     }
 
 

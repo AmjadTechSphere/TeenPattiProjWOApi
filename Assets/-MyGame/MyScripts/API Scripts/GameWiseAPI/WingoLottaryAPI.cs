@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class WingoLottaryAPI : ES3Cloud
+public class WingoLottaryAPI : MonoBehaviour
 {
     #region Creating Instance
     private static WingoLottaryAPI _instance;
 
-    public WingoLottaryAPI(string url, string apiKey) : base(url, apiKey)
-    {
-    }
+    
 
     public static WingoLottaryAPI Instance
     {
@@ -62,39 +60,7 @@ public class WingoLottaryAPI : ES3Cloud
 
     IEnumerator WingoLottaryBetSendAPI(string incrementedID, string roomID, string tableName, string selPoint, string betAmount, string winPoint)
     {
-        string url = APIStrings.WingoLottaryBetSendURLAPI;
-        formData = new List<KeyValuePair<string, string>>();
-
-        AddPOSTField(PlayerIncrementedID, incrementedID);
-        AddPOSTField(RoomID, roomID);
-        AddPOSTField(TableName, tableName);
-        AddPOSTField(SelectedPoint, selPoint);
-        AddPOSTField(BetAmount, betAmount);
-        AddPOSTField(WinningPoint, winPoint);
-        WWWForm form = CreateWWWForm();
-
-        Debug.Log("Incremented Id:...." + incrementedID + "  RoomId   " + roomID + "     TableName....." + tableName + "   Selelct point....." + selPoint + "   BetAmount....." + betAmount + "     winingNumber.... " + winPoint);
-        using (var webRequest = UnityWebRequest.Post(url, form))
-        {
-            webRequest.timeout = 20;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-
-            int responseCode = (int)webRequest.responseCode;
-            string responseText = webRequest.downloadHandler.text;
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Result: " + webRequest.result);
-                if (webRequest.result.ToString().Contains("Protocol") || webRequest.result.ToString().Contains("protocol"))
-                {
-                    Debug.LogError("error Type:" + webRequest.result + ",  " + ": not sent : error code: " + responseCode + "\nError Detail: " + responseText);
-                }
-            }
-            else
-            {
-                Debug.Log("Dragon Tiger bet sent successfully");
-            }
-        }
+        yield return new WaitForSeconds(0);
     }
     #endregion
 }

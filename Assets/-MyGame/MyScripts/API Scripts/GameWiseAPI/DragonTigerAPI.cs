@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class DragonTigerAPI : ES3Cloud
+public class DragonTigerAPI : MonoBehaviour
 {
     #region Creating Instance
     private static DragonTigerAPI _instance;
 
-    public DragonTigerAPI(string url, string apiKey) : base(url, apiKey)
-    {
-    }
+   
 
     public static DragonTigerAPI Instance
     {
@@ -60,41 +58,7 @@ public class DragonTigerAPI : ES3Cloud
 
     public IEnumerator SendPlayerPlayerBetToServerAPI(string incrementedID, string roomID, string tableName, string selPoint, string betAmount, string winPoint)
     {
-        string url = APIStrings.DragonTigerURLAPI;
-        formData = new List<KeyValuePair<string, string>>();
-
-        AddPOSTField(PlayerIncrementedID, incrementedID);
-        AddPOSTField(RoomID, roomID);
-        AddPOSTField(TableName, tableName);
-        AddPOSTField(SelectedPoint, selPoint);
-        AddPOSTField(BetAmount, betAmount);
-        AddPOSTField(WinningPoint, winPoint);
-        WWWForm form = CreateWWWForm();
-
-
-
-        Debug.Log("Check Incremented Id:...." + incrementedID + "  Check RoomId   " + roomID + "     checkableName....." + tableName + "   check Selelct point....." + selPoint + "   Check BetAmount....." + betAmount +  "     Check winingNumber.... " + winPoint);
-        using (var webRequest = UnityWebRequest.Post(url, form))
-        {
-            webRequest.timeout = 20;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-
-            int responseCode = (int)webRequest.responseCode;
-            string responseText = webRequest.downloadHandler.text;
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Result: " + webRequest.result);
-                if (webRequest.result.ToString().Contains("Protocol") || webRequest.result.ToString().Contains("protocol"))
-                {
-                    Debug.LogError("error Type:" + webRequest.result + ",  " + ": not sent : error code: " + responseCode + "\nError Detail: " + responseText);
-                }
-            }
-            else
-            {
-                Debug.Log("Dragon Tiger bet sent successfully");
-            }
-        }
+        yield return new WaitForSeconds(0);
     }
     #endregion
 }

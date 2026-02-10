@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static GoldWinLoose;
 
-public class DailyReward : ES3Cloud
+public class DailyReward : MonoBehaviour
 {
     public GameObject DailyRewardPanel;
     public GameObject DailyRewardSuccessPanel;
@@ -22,10 +22,7 @@ public class DailyReward : ES3Cloud
     public static int dayToCollect;
 
     public static DailyReward Instance;
-    protected DailyReward(string url, string apiKey) : base(url, apiKey)
-    {
-
-    }
+  
 
     private void Start()
     {
@@ -273,27 +270,11 @@ public class DailyReward : ES3Cloud
     {
         yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
         yield return new WaitForSecondsRealtime(delay);
-        string url = APIStrings.GetdailyReardStatusAPIURL + LocalSettings.GetPlayerID();
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error is: " + webRequest.result);
-
-            }
-            else
-            {
-                Debug.Log("success is: " + webRequest.result);
-            }
-            string jsonString = webRequest.downloadHandler.text;
+       
             //Debug.LogError("DailyReward : " + jsonString);
             getRewardDayStatusClass = new GetRewardDayStatusClass();
-            getRewardDayStatusClass = JsonConvert.DeserializeObject<GetRewardDayStatusClass>(jsonString);
             GetStatusOfDailyReward();
-        }
+        
     }
     #endregion
     void GetStatusOfDailyReward()
@@ -374,50 +355,33 @@ public class DailyReward : ES3Cloud
     }
     IEnumerator CollectingRewardAPI(string RewardAmount)
     {
-        string url = APIStrings.SenddailyReardStatusAPIURL + LocalSettings.GetPlayerID() + "&day=" + dayToCollect + "&reward=" + RewardAmount;
+
         DailyRewardLoadingPanel.SetActive(true);
-        yield return new WaitForSeconds(0.01f);
-        formData = new List<KeyValuePair<string, string>>();
 
-        WWWForm form = CreateWWWForm();
 
-        using (var webRequest = UnityWebRequest.Post(url, form))
-        {
-            webRequest.timeout = 12;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
+        yield return new WaitForSeconds(0);
+        GetTodayRewardStatus(0.05f);
+        dailyRewardsAmount.text = LocalSettings.Rs(RewardAmount);
+        SoundManager.Instance.PlayAudioClip(SoundManager.AllSounds.DailyReward, false);
+        DailyRewardSuccessPanel.SetActive(true);
+        // give reward of the day from 0 to 6
+        //GoldWinLoose.Instance.SendGold("collecting_gold_Main_Menu", "Daily_Reward", "Daily_reward_table", Trans.win, chipsAmount.ToString());
 
-            int responseCode = (int)webRequest.responseCode;
-            string responseText = webRequest.downloadHandler.text;
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Result: " + webRequest.result);
-                Toaster.ShowAToast("Unable to Collect Reward\nTry Again Later");
-            }
-            else
-            {
-                GetTodayRewardStatus(0.05f);
-                dailyRewardsAmount.text = LocalSettings.Rs(RewardAmount);
-                SoundManager.Instance.PlayAudioClip(SoundManager.AllSounds.DailyReward, false);
-                DailyRewardSuccessPanel.SetActive(true);
-                // give reward of the day from 0 to 6
-                //GoldWinLoose.Instance.SendGold("collecting_gold_Main_Menu", "Daily_Reward", "Daily_reward_table", Trans.win, chipsAmount.ToString());
-            }
-            DailyRewardLoadingPanel.SetActive(false);
-
-        }
+        DailyRewardLoadingPanel.SetActive(false);
 
     }
-    #endregion
 
-
-    #region Json to c# 
-
-    public class GetRewardDayStatusClass
-    {
-        public int day { get; set; }
-        public string get { get; set; }
-    }
-
-    #endregion
 }
+#endregion
+
+
+#region Json to c# 
+
+public class GetRewardDayStatusClass
+{
+    public int day { get; set; }
+    public string get { get; set; }
+}
+
+    #endregion
+

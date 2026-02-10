@@ -321,7 +321,7 @@ namespace com.mani.muzamil.amjad
         {
             if (LocalSettings.isPasswordRequired && !LocalSettings.IsPasswordChecked)
             {
-                GoldProtection.Instance.AuthenticateWithPassword(LoadAndStartGame, EnumNumber);
+               
                 return;
             }
             BigInteger betAmount = LocalSettings.StringToBigInteger(EnumNumber);
@@ -638,7 +638,7 @@ namespace com.mani.muzamil.amjad
             }
 
             GoldTransfer.Instance.PlayerTotalChips.text = LocalSettings.Rs(myPlayerData.total_chips);
-            GoldProtection.Instance.GetGoldProtectionDetail();
+           
             dailyReward.GetTodayDailyRewardStatusNow(0);
         }
 

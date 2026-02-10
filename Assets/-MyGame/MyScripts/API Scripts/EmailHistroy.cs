@@ -2,11 +2,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class EmailHistroy : ES3Cloud
+public class EmailHistroy : MonoBehaviour
 {
     public GameObject historyBox;
     public GameObject noMoreHistory;
@@ -37,7 +38,7 @@ public class EmailHistroy : ES3Cloud
         if (_instance == null)
             _instance = this;
     }
-    protected EmailHistroy(string url, string apiKey) : base(url, apiKey) { }
+    
     #endregion
 
 
@@ -70,28 +71,10 @@ public class EmailHistroy : ES3Cloud
     {
         GoldTransfer.Instance.LoadingPanel.SetActive(true);
         yield return new WaitForSecondsRealtime(0.1f);
-        string url = APIStrings.EmailsHistoryListURLAPI + PlayerIDForEmailList;
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            GoldTransfer.Instance.LoadingPanel.SetActive(true);
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            emailHistory = new EmailHistoryList();
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-
-                Debug.LogError("Error is: " + webRequest.result);
-            }
-            else
-            {
-                Debug.LogError("success is: " + webRequest.result);
-            }
-            string jsonString = webRequest.downloadHandler.text;
-            Debug.LogError(jsonString);
+       
             GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            emailHistory = JsonConvert.DeserializeObject<EmailHistoryList>(jsonString);
             SetEmailFields(emailHistory);
-        }
+        
     }
     List<GameObject> EmailHistroyList = new List<GameObject>();
     void SetEmailFields(EmailHistoryList emailHistoryList)
@@ -152,24 +135,13 @@ public class EmailHistroy : ES3Cloud
 
     IEnumerator sendToDeleteEmailHistorAPI(string deleteEmailID)
     {
-        string url = APIStrings.DeleteEmailsHistoryURLAPI + deleteEmailID;
-        GoldTransfer.Instance.LoadingPanel.SetActive(true);
-        using (var webRequest = UnityWebRequest.Get(url))
-        {
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error is:  " + webRequest.result);
-                GoldTransfer.Instance.LoadingPanel.SetActive(false);
-            }
-            else
-            {
-                GoldTransfer.Instance.LoadingPanel.SetActive(false);
-                GetEmailHistoryList();
-                HistoryEmailreadFullpanel.SetActive(false);
-            }
-        }
+        yield return new WaitForSeconds(1);
+
+        GoldTransfer.Instance.LoadingPanel.SetActive(false);
+        GetEmailHistoryList();
+        HistoryEmailreadFullpanel.SetActive(false);
+
+
     }
     #endregion
 

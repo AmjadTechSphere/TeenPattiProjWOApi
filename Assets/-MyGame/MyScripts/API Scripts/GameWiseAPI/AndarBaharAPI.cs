@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class AndarBaharAPI : ES3Cloud
+public class AndarBaharAPI : MonoBehaviour
 {
     #region Creating Instance
     private static AndarBaharAPI _instance;
-    public AndarBaharAPI(string url, string apiKey) : base(url, apiKey)
-    {
-    }
-
+    
     public static AndarBaharAPI Instance
     {
         get
@@ -77,37 +74,7 @@ public class AndarBaharAPI : ES3Cloud
 
     public IEnumerator SendABBetToServerAPI(string incrementedID, string roomID, string tableName, string selPoint, string betAmount, string winPoint)
     {
-        string url = APIStrings.andarBaharBetSendURLAPI;
-        formData = new List<KeyValuePair<string, string>>();
-        AddPOSTField(PlayerIncrementedID, incrementedID);
-        AddPOSTField(RoomID, roomID);
-        AddPOSTField(TableName, tableName);
-        AddPOSTField(SelectedPoint, selPoint);
-        AddPOSTField(BetAmount, betAmount);
-        AddPOSTField(Result, winPoint);
-        WWWForm form = CreateWWWForm();
-
-        using (var webRequest = UnityWebRequest.Post(url, form))
-        {
-            webRequest.timeout = 20;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-
-            int responseCode = (int)webRequest.responseCode;
-            string responseText = webRequest.downloadHandler.text;
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Result: " + webRequest.result);
-                if (webRequest.result.ToString().Contains("Protocol") || webRequest.result.ToString().Contains("protocol"))
-                {
-                    Debug.Log("error Type:" + webRequest.result + ",  " + ": not sent : error code: " + responseCode + "\nError Detail: " + responseText);
-                }
-            }
-            else
-            {
-                Debug.Log("Lucky War bet sent successfully");
-            }
-        }
+        yield return new WaitForSeconds(0);
     }
     #endregion
 

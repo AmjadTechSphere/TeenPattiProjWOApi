@@ -10,7 +10,7 @@ using System.IO;
 using UnityEngine.Android;
 using UnityEngine.SceneManagement;
 
-public class GoldTransfer : ES3Cloud
+public class GoldTransfer : MonoBehaviour
 {
     public const string GuestString = "guest";
     public const string PlayerString = "player";
@@ -96,10 +96,7 @@ public class GoldTransfer : ES3Cloud
         if (_instance == null)
             _instance = this;
     }
-    protected GoldTransfer(string url, string apiKey) : base(url, apiKey)
-    {
-
-    }
+    
     #endregion
 
     void Start()
@@ -214,7 +211,7 @@ public class GoldTransfer : ES3Cloud
     {
         if (LocalSettings.isPasswordRequired && !LocalSettings.IsPasswordChecked)
         {
-            GoldProtection.Instance.AuthenticateWithPassword(GoldTranferForGoldProtection, "tempJustForFieldFill");
+           
             return;
         }
         LoadingPanel.SetActive(true);
@@ -318,51 +315,23 @@ public class GoldTransfer : ES3Cloud
     public IEnumerator SendChipsToOtherPlayerUsingAPI(string Sender_IncrementedID, string receiver_IncrementedID, string amountToSend)
     {
 
-        string url = APIStrings.SendGoldWithPlayerIDAPIURL;
-        formData = new List<KeyValuePair<string, string>>();
-        Debug.Log("check your URl" + url + APIStrings.SendGoldWithPlayerIDAPIURL);
-        AddPOSTField(SenderIncrementedID, Sender_IncrementedID);
-        AddPOSTField(ReceiverIncrementedID, receiver_IncrementedID);
-        AddPOSTField(ChipsToSend, amountToSend);
-
-        WWWForm form = CreateWWWForm();
-
-        using (var webRequest = UnityWebRequest.Post(url, form))
-        {
-            webRequest.timeout = 15;
-            yield return SendWebRequest(webRequest);
-            HandleError(webRequest, true);
-
-            if (webRequest.result != UnityWebRequest.Result.Success)
-            {
-                if (webRequest.result.ToString().Contains("Protocol") || webRequest.result.ToString().Contains("protocol"))
-                {
-                    //FetchData(tokenID, Menu_Manager.Instance.SetUserNameAndOtherThings);
-                }
-                Debug.LogError("Player chips sent failed ");
-                int responseCode = (int)webRequest.responseCode;
-                string responseText = webRequest.downloadHandler.text;
-                showMessage("Transfer Failed. Try Again Later");
-                //Debug.LogError("response COde: " + responseCode + "     : Response text: " + responseText);
-            }
-            else
-            {
+        yield return new WaitForSeconds(0);
                 Debug.Log("Player chips sent successfully ");
-                ReceiptPanel.SetActive(true);
-                DateAndTimeReceipt.text = System.DateTime.Now.ToString();
+        ReceiptPanel.SetActive(true);
+        DateAndTimeReceipt.text = System.DateTime.Now.ToString();
 
-                if (goldtransferhistory.Instance != null)
-                    goldtransferhistory.Instance.GetPlayerGoldSentRecord();
-                else
-                {
-                    Debug.Log("Instance issue");
-                    if (LocalSettings.IsMenuScene())
-                        RestAPI.Instance.FetchData(LocalSettings.GetTokenID(), Menu_Manager.Instance.SetUserNameAndOtherThings);
-                }
-            }
-            LoadingPanel.SetActive(false);
-
+        if (goldtransferhistory.Instance != null)
+            goldtransferhistory.Instance.GetPlayerGoldSentRecord();
+        else
+        {
+            Debug.Log("Instance issue");
+            if (LocalSettings.IsMenuScene())
+                RestAPI.Instance.FetchData(LocalSettings.GetTokenID(), Menu_Manager.Instance.SetUserNameAndOtherThings);
         }
+
+        LoadingPanel.SetActive(false);
+
+
 
     }
     #endregion

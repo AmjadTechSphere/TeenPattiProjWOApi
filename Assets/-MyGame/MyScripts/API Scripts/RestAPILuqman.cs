@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace com.mani.muzamil.amjad
 {
-    public class RestAPILuqman : ES3Cloud
+    public class RestAPILuqman : MonoBehaviour
     {
         public const string ID = "id";
         public const string UserName = "username";
@@ -84,11 +84,7 @@ namespace com.mani.muzamil.amjad
         #endregion
 
 
-        protected RestAPILuqman(string url, string apiKey) : base(url, apiKey)
-        {
-
-        }
-
+   
         private void OnEnable()
         {
             GetDeviceUniqueID();
@@ -116,10 +112,7 @@ namespace com.mani.muzamil.amjad
             StartCoroutine(SendingData());
         }
 
-        public void Receive()
-        {
-            StartCoroutine(ReceivingData());
-        }
+        
 
         public void AddChips(BigInteger chips)
         {
@@ -141,13 +134,7 @@ namespace com.mani.muzamil.amjad
         }
 
 
-        void RetrieveImageFromDB(string imagePath)
-        {
-            StartCoroutine(LoadImage(ImageURL + imagePath, sprite =>
-            {
-                ProfileImage.sprite = sprite;
-            }));
-        }
+      
 
 
 
@@ -169,64 +156,15 @@ namespace com.mani.muzamil.amjad
 
         IEnumerator SendingData()
         {
-            string URL = CreateNewUserURL;
+            
+                yield return new WaitForSeconds(0);
 
-            formData = new List<KeyValuePair<string, string>>();
-
-
-            // Add the image byte array to the form       
-            AddPOSTField(UserName, "MyTest2ss31July");
-            AddPOSTField(Email, "lucmanmaniJuly@gmail.com");
-            AddPOSTField(DeviceID, "luqmanDeviceID"/*MyDeviceId*/);
-            AddPOSTField(Diamonds, "100");
-            AddPOSTField(XP, "000");
-            AddPOSTField(Chips, "4000");
-
-
-            WWWForm form = CreateWWWForm();
-
-            byte[] imageBytes = GetSpriteBytes(ProfilePic);
-            form.AddBinaryData(Image, imageBytes);
-
-            using (var webRequest = UnityWebRequest.Post(URL, form))
-            {
-                webRequest.timeout = 10;
-                yield return SendWebRequest(webRequest);
-                HandleError(webRequest, true);
-
-                Debug.Log(webRequest.downloadHandler.text.ToString());
-            }
+            
 
         }
 
 
-        IEnumerator ReceivingData()
-        {
-            string URL = GettingUserDataURL + MyDeviceId;
-
-            using (var webRequest = UnityWebRequest.Get(URL))
-            {
-                //webRequest.timeout = 1;
-                yield return SendWebRequest(webRequest);
-                HandleError(webRequest, true);
-
-                string jsonString = webRequest.downloadHandler.text;
-                Debug.Log("Json String Is " + jsonString);
-
-                // Deserialize the JSON string
-                PlayerData playerData = JsonUtility.FromJson<PlayerData>(jsonString);
-
-                // Access the deserialized data
-                Debug.Log(playerData.success);
-                Debug.Log(playerData.player.username);
-                Debug.Log(playerData.player.image);
-                Debug.Log(playerData.player.player_details[0].diamond);
-                Debug.Log(playerData.total_chips);
-
-                RetrieveImageFromDB(playerData.player.image);
-
-            }
-        }
+       
 
         IEnumerator GettingTotalChips(Action<BigInteger> textAction)
         {
@@ -235,8 +173,7 @@ namespace com.mani.muzamil.amjad
             using (var webRequest = UnityWebRequest.Get(URL))
             {
                 //webRequest.timeout = 1;
-                yield return SendWebRequest(webRequest);
-                HandleError(webRequest, true);
+                yield return new WaitForSeconds(0);
 
                 string jsonString = webRequest.downloadHandler.text;
                 Debug.Log("Json String Is " + jsonString);
@@ -245,7 +182,7 @@ namespace com.mani.muzamil.amjad
                 PlayerData playerData = JsonUtility.FromJson<PlayerData>(jsonString);
 
                 Debug.Log(playerData.total_chips);
-                if(textAction!= null)
+                if (textAction != null)
                     textAction.Invoke(playerData.total_chips);
 
             }
@@ -275,39 +212,16 @@ namespace com.mani.muzamil.amjad
 
         IEnumerator AddingChips(BigInteger chips)
         {
-            string URL = AddingChipsURL + MyDeviceId + "&" + Chips + "=" + chips;
-
-            using (var webRequest = UnityWebRequest.Get(URL))
-            {
-                webRequest.timeout = 10;
-                yield return SendWebRequest(webRequest);
-                HandleError(webRequest, true);
-                Debug.Log(webRequest.downloadHandler.text.ToString());
-                LocalSettings.SetNetworkCashBool(true);                
-            }
+            yield return new WaitForSeconds(0);
+            LocalSettings.SetNetworkCashBool(true);
+            
         }
 
         IEnumerator SubtractingChips(BigInteger chips)
         {
-            string URL = SubtractingChipsURL + MyDeviceId + "&" + Chips + "=" + chips;
+            yield return new WaitForSeconds(0);
+            LocalSettings.SetNetworkCashBool(true);
 
-            using (var webRequest = UnityWebRequest.Get(URL))
-            {
-                webRequest.timeout = 10;
-                yield return SendWebRequest(webRequest);
-                HandleError(webRequest, true);
-                if (webRequest.responseCode == 420)
-                {
-                    Debug.Log("Sorry, You Dont Have Enough Chips");
-                }
-                else
-                {
-                    Debug.Log("Chips Subtrated");
-                    LocalSettings.SetNetworkCashBool(true);
-                }
-                Debug.Log(webRequest.downloadHandler.text.ToString());
-
-            }
         }
         #endregion
 
