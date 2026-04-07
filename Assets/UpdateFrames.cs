@@ -42,11 +42,13 @@ namespace com.mani.muzamil.amjad
         {
             if (_Instance == null)
                 _Instance = this;
+            if (!PlayerPrefs.HasKey("name"))
+                PlayerPrefs.SetString("name", LocalSettings.GenerateRandomName(6));
         }
         // Start is called before the first frame update
         void Start()
         {
-
+            
             UpdateFrames.Instance.NameText.text = PlayerPrefs.GetString("name");
             FrameBtnsParent = frameBtn.transform.parent;
             CreateAvatorBtns();

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.UIElements;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace com.mani.muzamil.amjad
@@ -92,6 +93,7 @@ namespace com.mani.muzamil.amjad
             }
             ActiveMyPanel(loadingPanel.name);
             PhotonNetwork.AutomaticallySyncScene = true;
+            
             if (PlayerPrefs.HasKey("name"))
                 PhotonNetwork.LocalPlayer.NickName = PlayerPrefs.GetString("name") /*+ Random.Range(100, 1000)*/;
             //PhotonNetwork.LocalPlayer.NickName = "Player " + Random.Range(100, 1000);
@@ -159,10 +161,10 @@ namespace com.mani.muzamil.amjad
         {
             foreach (RoomInfo roomInfo in roomInfos)
             {
-               // Debug.LogError("PlayerCOunt......" + roomInfo.PlayerCount);
+                // Debug.LogError("PlayerCOunt......" + roomInfo.PlayerCount);
                 if (roomInfo.PlayerCount == 0)
                 {
-                   // Debug.LogError("PlayerCOunt....22.." + roomInfo.PlayerCount);
+                    // Debug.LogError("PlayerCOunt....22.." + roomInfo.PlayerCount);
                     roomInfos.Remove(roomInfo);
                 }
             }
@@ -174,18 +176,18 @@ namespace com.mani.muzamil.amjad
                 //Debug.LogError(" roomInfoName   " + roomInfoName);
                 if (RoomName == roomInfoName/*roomInfoName.Contains(RoomName)*/)
                 {
-                   // Debug.LogError("Current i ......" + i + "   Check Room name  " + roomInfoName + "  localName   " + LocalSettings.GetSetRoomID);
+                    // Debug.LogError("Current i ......" + i + "   Check Room name  " + roomInfoName + "  localName   " + LocalSettings.GetSetRoomID);
                     if (roomInfos[i].Name == LocalSettings.GetSetRoomID)
                     {
                         if (i == roomInfos.Count - 1)
                         {
-                           // Debug.LogError("check value i...1......" + i);
+                            // Debug.LogError("check value i...1......" + i);
                             LocalSettings.GetSetRoomID = roomInfos[0].Name.ToString();
                         }
 
                         else
                         {
-                           // Debug.LogError("check value i...2......" + i);
+                            // Debug.LogError("check value i...2......" + i);
                             LocalSettings.GetSetRoomID = roomInfos[i + 1].Name.ToString();
                         }
                         return true;
@@ -276,7 +278,7 @@ namespace com.mani.muzamil.amjad
 
 
 
-        public void  OnBtnClickPlayAgainBtn()
+        public void OnBtnClickPlayAgainBtn()
         {
             RoomEntranceProperty(MatchHandler.CurrentMatch, LocalSettings.MinBetAmount);
         }
@@ -286,8 +288,8 @@ namespace com.mani.muzamil.amjad
             // AssignMimumBet(EnumNumber);
             LocalSettings.MinBetAmount = EnumNumber;
 
-           // Debug.LogError("MinimumBetAmount   " + LocalSettings.Rs(LocalSettings.MinBetAmount));
-           // return;
+            // Debug.LogError("MinimumBetAmount   " + LocalSettings.Rs(LocalSettings.MinBetAmount));
+            // return;
             ActiveMyPanel(loadingPanel.name);
             RoomName = MatchHandler.CurrentMatch + EnumNumber.ToString();
             Debug.Log("Room Name: " + RoomName);
@@ -415,7 +417,7 @@ namespace com.mani.muzamil.amjad
             }
             ActiveMyPanel(menuPanel.name);
             AssignPicToPlayerProperties(LocalSettings.GetprofilePic());
-            
+
             AssignFrameToPlayerProperties(LocalSettings.GetprofileFrame());
             PhotonNetwork.LocalPlayer.SetCustomBigIntegerData(LocalSettings.MyTotalCashKey, LocalSettings.GetTotalChips());
             //StartCoroutine(SwtichRoom());
@@ -428,7 +430,7 @@ namespace com.mani.muzamil.amjad
         // ye method int value k lye tha jab hub profile picture Server  main se Set kr rahe thy
         public void AssignPicToPlayerPropertiesStringForm(string val)
         {
-          //  Debug.LogError("Check Name of image...." + val);
+            //  Debug.LogError("Check Name of image...." + val);
             PhotonNetwork.LocalPlayer.SetCustomString(LocalSettings.ProfilePicNameKey, val);
         }
 

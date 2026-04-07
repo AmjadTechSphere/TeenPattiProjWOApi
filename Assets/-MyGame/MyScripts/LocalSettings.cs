@@ -9,6 +9,19 @@ using TMPro;
 
 public static class LocalSettings
 {
+    const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+    public static string GenerateRandomName(int length)
+    {
+        string result = "";
+
+        for (int i = 0; i < length; i++)
+        {
+            int index = Random.Range(0, characters.Length);
+            result += characters[index];
+        }
+
+        return result;
+    }
     private static int MinPlayers = 2;
     private const int MaxPlayers = 5;
     private const int MaxPlayersWL = 20;
